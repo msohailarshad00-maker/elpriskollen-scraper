@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+output_*.json
+output_*.xlsx
+combined_output.json
+combined_output.xlsx
+credentials.json
+.env
