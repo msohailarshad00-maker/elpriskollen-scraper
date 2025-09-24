@@ -1,0 +1,41 @@
+name: Weekly Elpriskollen Scrape & Upload
+
+on:
+  schedule:
+    # Run every Monday at 6:00 AM UTC (adjust if needed)
+    - cron: '0 6 * * MON'
+  workflow_dispatch:  # Allows manual run
+
+jobs:
+  scrape-and-upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+
+      - name: Write credentials from secret
+        run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+
+      - name: Run scraper (includes auto-upload)
+        run: python scrape_elpriskollen.py
+
+      - name: Upload output files (optional backup)
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-output-${{ github.run_id }}
+          path: |
+            output_*.json
+            output_*.xlsx
+            combined_output.json
