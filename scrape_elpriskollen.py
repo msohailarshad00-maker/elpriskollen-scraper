@@ -33,7 +33,7 @@ COUNTIES = [
 
 # ===== CONFIG =====
 CONSUMPTION_KWH = "2000"  # You can change this
-HEADLESS_MODE = False     # Set to True for faster background runs
+HEADLESS_MODE = True     # Set to True for faster background runs
 DELAY_BETWEEN_ZIPS = 5    # Seconds to pause between ZIPs (be kind to server)
 
 def scrape_for_zip(page, zip_info):
