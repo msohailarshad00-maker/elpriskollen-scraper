@@ -351,12 +351,17 @@ def run():
 
         browser.close()
 
-    # Save combined files
-    save_combined_output(all_results)
+        # Save combined files
+        save_combined_output(all_results)
 
-    print(f"\n✅✅✅ ALL DONE! Total records scraped: {len(all_results)}")
-    print("📁 Individual files: output_XXXXX.json/.xlsx")
-    print("📁 Combined files: combined_output.json/.xlsx")
+        print(f"\n✅✅✅ ALL DONE! Total records scraped: {len(all_results)}")
+        print("📁 Individual files: output_XXXXX.json/.xlsx")
+        print("📁 Combined files: combined_output.json/.xlsx")
+
+        # ✅ ADD THIS TO TRIGGER UPLOAD
+        import subprocess
+        import sys
+        subprocess.run([sys.executable, "upload_to_sheets.py"])
 
 
 if __name__ == "__main__":
