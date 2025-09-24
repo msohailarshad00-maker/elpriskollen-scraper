@@ -54,7 +54,14 @@ def scrape_for_zip(page, zip_info):
 
         # Step 1: Go to homepage
         page.goto("https://elpriskollen.se/", timeout=60000)
-
+        try:
+            cookie_button = page.locator('button.env-button:has-text("Godkänn alla kakor")')
+            if cookie_button.is_visible(timeout=3000):
+                cookie_button.click()
+                print("🍪 Accepted cookies")
+                page.wait_for_timeout(1000)
+        except Exception as e:
+            print("ℹ️ No cookie banner found or failed to click:", str(e))        
         # Step 2: Enter ZIP code
         page.fill("#pcode", zip_code)
         page.click("#next-page")
