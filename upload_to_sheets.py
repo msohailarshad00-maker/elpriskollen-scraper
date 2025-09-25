@@ -7,7 +7,7 @@ from google.oauth2.service_account import Credentials
 
 # === CONFIG ===
 CREDENTIALS_FILE = "credentials.json"
-GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1BCSR7k0MhO30TY-nh-FhlN43l5dlT6wialgHE6dL8gM/edit?gid=0#gid=0"  # ← REPLACE WITH YOUR SHEET URL
+GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1CpRBgEPTQRE96PnitwTfE8ZzpSOAgUR11-m-9uL43Z4/edit?gid=0#gid=0"  # ← REPLACE WITH YOUR SHEET URL
 JSON_INPUT = "combined_output.json"
 
 def upload_to_google_sheet():
