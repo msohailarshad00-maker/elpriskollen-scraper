@@ -259,7 +259,7 @@ def save_combined_output(all_data):
     with open("combined_output.json", "w", encoding="utf-8") as f:
         json.dump(all_data, f, indent=2, ensure_ascii=False)
     flat = []
-    for item in all_
+    for item in all_data:
         flat_item = item.copy()
         pb = flat_item.pop("price_breakdown", {})
         for k, v in pb.items():
