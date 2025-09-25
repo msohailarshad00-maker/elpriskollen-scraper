@@ -29,7 +29,7 @@ def scrape_for_zip(page, zip_info):
     town = zip_info["town"]
 
     # ✅ THREE CONSUMPTION LEVELS
-    CONSUMPTION_LEVELS = ["2000", "3000", "5000"]
+    CONSUMPTION_LEVELS = ["2000", "20000", "5000"]
     all_results_for_zip = []
 
     for consumption in CONSUMPTION_LEVELS:
