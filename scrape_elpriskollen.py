@@ -31,7 +31,7 @@ COUNTIES = [
 ]
 
 # Auto headless: False locally, True in GitHub Actions
-HEADLESS_MODE = true
+HEADLESS_MODE = True
 
 # Split into chunks of 4 ZIPs
 def chunk_list(lst, n):
@@ -51,12 +51,13 @@ def scrape_for_zip(page, zip_info):
     zip_code = zip_info["zip_code"]
     county = zip_info["county"]
     town = zip_info["town"]
-    CONSUMPTION_LEVELS = ["2000", "3000", "5000"]  # Fixed: was 20000
+    CONSUMPTION_LEVELS = ["2000", "20000", "5000"]  # Fixed: was 20000
     all_results_for_zip = []
 
     for consumption in CONSUMPTION_LEVELS:
         print(f"\n🔁 Scraping {county} ({town}) - ZIP: {zip_code} - {consumption} kWh")
         page.goto("https://elpriskollen.se/", timeout=60000)
+        time.sleep(3)
 
         # Handle cookie banner
         try:
@@ -70,17 +71,17 @@ def scrape_for_zip(page, zip_info):
         page.fill("#pcode", zip_code)
         page.click("#next-page")
         page.wait_for_timeout(2000)
-
+        time.sleep(3)
         page.fill("#annual_consumption", consumption)
         page.click("#next-page")
         page.wait_for_timeout(2000)
-
+        time.sleep(3)
         page.click("#app > div > div.guide__preamble > div.env-form-element > div.contractTypeButtons > a:nth-child(3)")
         page.wait_for_timeout(2000)
-
+        time.sleep(3)
         page.click("#app > div > div.epk-button > a.env-button")
         page.wait_for_timeout(3000)
-
+        time.sleep(30)
         # Scroll + click "Show more"
         while True:
             try:
