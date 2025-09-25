@@ -1,16 +1,17 @@
-name: Weekly Elpriskollen Scrape & Upload
+name: Hourly Test - Split ZIPs (6 Jobs)
 
 on:
   schedule:
-    # Run every Monday at 6:00 AM UTC (adjust if needed)
-    - cron: '0 6 * * MON'
-  workflow_dispatch:  # Allows manual run
+    # Har ghante (00 minute UTC) — test ke liye
+    - cron: '0 * * * *'
+  workflow_dispatch:  # Manual run allowed
 
 jobs:
-  scrape-and-upload:
+  scrape-zip-group-0:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-
+    timeout-minutes: 25
+    env:
+      ZIP_GROUP: 0
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,17 +26,78 @@ jobs:
           pip install -r requirements.txt
           playwright install chromium
 
-      - name: Write credentials from secret
+      - name: Write Google credentials
         run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
 
-      - name: Run scraper (includes auto-upload)
+      - name: Run scraper + upload
         run: python scrape_elpriskollen.py
 
-      - name: Upload output files (optional backup)
-        uses: actions/upload-artifact@v4
+  scrape-zip-group-1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      ZIP_GROUP: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          name: weekly-output-${{ github.run_id }}
-          path: |
-            output_*.json
-            output_*.xlsx
-            combined_output.json
+          python-version: '3.11'
+      - run: pip install -r requirements.txt && playwright install chromium
+      - run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+      - run: python scrape_elpriskollen.py
+
+  scrape-zip-group-2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      ZIP_GROUP: 2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt && playwright install chromium
+      - run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+      - run: python scrape_elpriskollen.py
+
+  scrape-zip-group-3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      ZIP_GROUP: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt && playwright install chromium
+      - run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+      - run: python scrape_elpriskollen.py
+
+  scrape-zip-group-4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      ZIP_GROUP: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt && playwright install chromium
+      - run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+      - run: python scrape_elpriskollen.py
+
+  scrape-zip-group-5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10   # Last group has only 1 ZIP
+    env:
+      ZIP_GROUP: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt && playwright install chromium
+      - run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+      - run: python scrape_elpriskollen.py
