@@ -71,17 +71,17 @@ def scrape_for_zip(page, zip_info):
         page.fill("#pcode", zip_code)
         page.click("#next-page")
         page.wait_for_timeout(2000)
-        time.sleep(3)
+        time.sleep(2)
         page.fill("#annual_consumption", consumption)
         page.click("#next-page")
         page.wait_for_timeout(2000)
-        time.sleep(3)
+        time.sleep(2)
         page.click("#app > div > div.guide__preamble > div.env-form-element > div.contractTypeButtons > a:nth-child(3)")
         page.wait_for_timeout(2000)
-        time.sleep(3)
+        time.sleep(2)
         page.click("#app > div > div.epk-button > a.env-button")
         page.wait_for_timeout(3000)
-        time.sleep(30)
+        time.sleep(20)
         # Scroll + click "Show more"
         while True:
             try:
