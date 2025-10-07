@@ -61,12 +61,14 @@ def scrape_for_zip(page, zip_info):
 
         # Handle cookie banner
         try:
-            cookie_btn = page.locator('button.env-button:has-text("Godkänn alla kakor")')
-            if cookie_btn.is_visible(timeout=3000):
-                cookie_btn.click()
-                page.wait_for_timeout(1000)
-        except:
-            pass
+            # Wait up to 10 seconds for the button to appear in DOM AND be visible
+            cookie_btn = page.get_by_role("button", name="Godkänn alla kakor")
+            cookie_btn.wait_for(state="visible", timeout=10000)
+            cookie_btn.click()
+            page.wait_for_timeout(1000)
+        except Exception as e:
+            print("Cookie button not found or not clickable:", e)
+        pass
 
         page.fill("#pcode", zip_code)
         page.click("#next-page")
@@ -81,7 +83,7 @@ def scrape_for_zip(page, zip_info):
         time.sleep(2)
         page.click("#app > div > div.epk-button > a.env-button")
         page.wait_for_timeout(3000)
-        time.sleep(20)
+        time.sleep(15)
         # Scroll + click "Show more"
         while True:
             try:
