@@ -34,18 +34,16 @@ COUNTIES = [
 HEADLESS_MODE = True
 
 # Split into chunks of 4 ZIPs
-def chunk_list(lst, n):
-    for i in range(0, len(lst), n):
-        yield lst[i:i + n]
-
-CHUNKS = list(chunk_list(COUNTIES, 4))
+# One ZIP per job
 GROUP_INDEX = int(os.getenv("ZIP_GROUP", "0"))
 
-if GROUP_INDEX >= len(CHUNKS):
-    print(f"⚠️ No ZIPs for group {GROUP_INDEX}. Exiting.")
+if GROUP_INDEX >= len(COUNTIES):
+    print(f"⚠️ Invalid ZIP index {GROUP_INDEX}. Exiting.")
     exit(0)
 
-SELECTED_COUNTIES = CHUNKS[GROUP_INDEX]
+SELECTED_COUNTIES = [COUNTIES[GROUP_INDEX]]
+print(f"🚀 Running scraper for ZIP index {GROUP_INDEX} ({SELECTED_COUNTIES[0]['zip_code']})")
+
 
 def scrape_for_zip(page, zip_info):
     zip_code = zip_info["zip_code"]
