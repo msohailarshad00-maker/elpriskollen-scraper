@@ -33,17 +33,13 @@ COUNTIES = [
 # Auto headless: False locally, True in GitHub Actions
 HEADLESS_MODE = True
 
-# Split into chunks of 4 ZIPs
-# One ZIP per job
-GROUP_INDEX = int(os.getenv("ZIP_GROUP", "0"))
+ZIP_INDEX = int(os.getenv("ZIP_INDEX", "0"))
 
-if GROUP_INDEX >= len(COUNTIES):
-    print(f"⚠️ Invalid ZIP index {GROUP_INDEX}. Exiting.")
+if ZIP_INDEX >= len(COUNTIES):
+    print(f"⚠️ No ZIP for index {ZIP_INDEX}. Exiting.")
     exit(0)
 
-SELECTED_COUNTIES = [COUNTIES[GROUP_INDEX]]
-print(f"🚀 Running scraper for ZIP index {GROUP_INDEX} ({SELECTED_COUNTIES[0]['zip_code']})")
-
+SELECTED_ZIP = COUNTIES[ZIP_INDEX]
 
 def scrape_for_zip(page, zip_info):
     zip_code = zip_info["zip_code"]
@@ -276,13 +272,11 @@ def run():
         browser = p.chromium.launch(headless=HEADLESS_MODE)
         page = browser.new_page()
 
-        for zip_info in SELECTED_COUNTIES:
-            try:
-                results = scrape_for_zip(page, zip_info)
-                all_results.extend(results)
-            except Exception as e:
-                print(f"🔥 CRITICAL ERROR on {zip_info['zip_code']}: {e}")
-                continue
+        try:
+            results = scrape_for_zip(page, SELECTED_ZIP)
+            all_results.extend(results)
+        except Exception as e:
+            print(f"🔥 CRITICAL ERROR on {SELECTED_ZIP['zip_code']}: {e}")
 
         browser.close()
         save_combined_output(all_results)
