@@ -1,36 +1,48 @@
-name: Hourly Test - Per ZIP (21 Jobs)
+name: Scrape All ZIPs (Parallel)
 
 on:
+  workflow_dispatch:    # Run manually
   schedule:
-    # Har ghante (00 minute UTC) — test ke liye
-    - cron: '0 6 * * MON'   # Har Monday 6 AM UTC
-  workflow_dispatch:  # Manual run allowed
+    - cron: '0 5 * * *'  # Daily at 5 AM UTC (optional)
 
 jobs:
   scrape-zip:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     strategy:
       matrix:
         zip_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-    env:
-      ZIP_INDEX: ${{ matrix.zip_index }}
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install playwright pandas openpyxl gspread google-auth
           playwright install chromium
+          playwright install-deps
 
-      - name: Write Google credentials
-        run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+      - name: Run scraper for ZIP ${{ matrix.zip_index }}
+        env:
+          ZIP_INDEX: ${{ matrix.zip_index }}
+          HEADLESS: true
+        run: |
+          python scrape_elpriskollen.py
 
-      - name: Run scraper + upload
-        run: python scrape_elpriskollen.py
+      - name: Upload to Google Sheets
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: |
+          echo "$GOOGLE_CREDENTIALS" > credentials.json
+          python upload_to_sheets.py
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f credentials.json combined_output.*
