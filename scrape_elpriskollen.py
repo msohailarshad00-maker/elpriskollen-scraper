@@ -44,7 +44,7 @@ COUNTIES = [
 ]
 
 # HEADLESS = OFF by default (you SEE the browser)
-HEADLESS_MODE = os.getenv("HEADLESS", "false").lower() == "true"
+HEADLESS_MODE = os.getenv("HEADLESS", "true").lower() == "true"
 
 # ZIP_INDEX: 0 to 20
 ZIP_INDEX = int(os.getenv("ZIP_INDEX", "0"))
