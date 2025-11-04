@@ -22,6 +22,25 @@ import subprocess
 COUNTIES = [
     {"county": "Stockholm län", "town": "Stockholm", "zip_code": "11121"},
     {"county": "Uppsala län", "town": "Uppsala", "zip_code": "75310"},
+    {"county": "Södermanlands län", "town": "Nyköping", "zip_code": "61131"},
+    {"county": "Östergötlands län", "town": "Linköping", "zip_code": "58222"},
+    {"county": "Jönköpings län", "town": "Jönköping", "zip_code": "55315"},
+    {"county": "Kronobergs län", "town": "Växjö", "zip_code": "35222"},
+    {"county": "Kalmar län", "town": "Kalmar", "zip_code": "39231"},
+    {"county": "Gotlands län", "town": "Visby", "zip_code": "62157"},
+    {"county": "Blekinge län", "town": "Karlskrona", "zip_code": "37131"},
+    {"county": "Skåne län", "town": "Malmö", "zip_code": "21122"},
+    {"county": "Hallands län", "town": "Halmstad", "zip_code": "30243"},
+    {"county": "Västra Götalands län", "town": "Göteborg", "zip_code": "41103"},
+    {"county": "Värmlands län", "town": "Karlstad", "zip_code": "65224"},
+    {"county": "Örebro län", "town": "Örebro", "zip_code": "70210"},
+    {"county": "Västmanlands län", "town": "Västerås", "zip_code": "72211"},
+    {"county": "Dalarnas län", "town": "Falun", "zip_code": "79171"},
+    {"county": "Gävleborgs län", "town": "Gävle", "zip_code": "80320"},
+    {"county": "Västernorrlands län", "town": "Härnösand", "zip_code": "87131"},
+    {"county": "Jämtlands län", "town": "Östersund", "zip_code": "83131"},
+    {"county": "Västerbottens län", "town": "Umeå", "zip_code": "90327"},
+    {"county": "Norrbottens län", "town": "Luleå", "zip_code": "97231"},
 ]
 
 # HEADLESS = OFF by default (you SEE the browser)
