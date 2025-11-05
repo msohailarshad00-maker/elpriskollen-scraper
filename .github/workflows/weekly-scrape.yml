@@ -3,7 +3,8 @@ name: Scrape All ZIPs (Parallel)
 on:
   workflow_dispatch:    # Run manually
   schedule:
-    - cron: '0 5 * * *'  # Daily at 5 AM UTC (optional)
+    - cron: '0 5 * * 1'  # Every Monday at 5 AM UTC
+
 
 jobs:
   scrape-zip:
